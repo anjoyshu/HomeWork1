@@ -145,6 +145,18 @@ namespace hw1.Controllers
             }
         }
 
+        public JsonResult DuplicateEmail(string Email)
+        {
+            bool isValidate = false;
+
+            客戶聯絡人 客戶聯絡 = repo聯絡.IsExist(Email);
+            if (客戶聯絡 == null) { isValidate = true; }
+            else { isValidate = false; }
+
+            return Json(isValidate, JsonRequestBehavior.AllowGet);
+
+        }
+
         // GET: 客戶聯絡人/Details/5
         public ActionResult Details(int? id)
         {

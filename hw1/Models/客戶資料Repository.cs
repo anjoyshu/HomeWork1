@@ -15,6 +15,12 @@ namespace hw1.Models
         {
             return this.All().Where(p => p.客戶名稱.Contains(searchString));
         }
+
+        public 客戶資料 IsExist(string Email)
+        {
+            return this.All().Where(p => p.Email == Email).SingleOrDefault();
+        }
+
     }
 
     public interface I客戶資料Repository : IRepository<客戶資料>

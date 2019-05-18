@@ -15,6 +15,11 @@ namespace hw1.Models
         {
             return this.All().Where(p => p.姓名.Contains(searchString));
         }
+
+        public 客戶聯絡人 IsExist(string Email)
+        {
+            return this.All().Where(p => p.Email == Email).SingleOrDefault();
+        }
     }
 
 	public  interface I客戶聯絡人Repository : IRepository<客戶聯絡人>

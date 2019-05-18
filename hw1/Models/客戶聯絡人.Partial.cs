@@ -4,7 +4,8 @@ namespace hw1.Models
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    
+    using System.Web.Mvc;
+
     [MetadataType(typeof(客戶聯絡人MetaData))]
     public partial class 客戶聯絡人
     {
@@ -27,6 +28,7 @@ namespace hw1.Models
         
         [StringLength(250, ErrorMessage="欄位長度不得大於 250 個字元")]
         [EmailAddress(ErrorMessage = "無效的 E-mail Address")]
+        [Remote(action: "DuplicateEmail", controller: "客戶聯絡人", ErrorMessage = "Email 重複")]
         [Required]
         public string Email { get; set; }
         

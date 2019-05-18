@@ -144,6 +144,18 @@ namespace hw1.Controllers
             }
         }
 
+        public JsonResult DuplicateEmail(string Email)
+        {
+            bool isValidate = false;
+
+            客戶資料 客戶資料 = repo客戶.IsExist(Email);
+            if (客戶資料 == null) { isValidate = true; }
+            else { isValidate = false; }
+
+            return Json(isValidate, JsonRequestBehavior.AllowGet);
+
+        }
+
         // GET: 客戶資料/Details/5
         public ActionResult Details(int? id)
         {
@@ -172,6 +184,7 @@ namespace hw1.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,客戶名稱,統一編號,電話,傳真,地址,Email")] 客戶資料 客戶資料)
         {
+
             if (ModelState.IsValid)
             {
                 repo客戶.Add(客戶資料);
