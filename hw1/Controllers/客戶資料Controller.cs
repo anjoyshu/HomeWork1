@@ -13,19 +13,106 @@ namespace hw1.Controllers
     public class 客戶資料Controller : Controller
     {
         //private CustomerEntities db = new CustomerEntities();
-
         客戶資料Repository repo客戶;
-        
+
         public 客戶資料Controller()
         {
             repo客戶 = RepositoryHelper.Get客戶資料Repository();
         }
 
         // GET: 客戶資料
-        public ActionResult Index()
+        public ViewResult Index(string sortOrder, string currentOrder, string searchString)
         {
             var customer = repo客戶.All();
-            return View(customer.ToList());
+            
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                customer = repo客戶.Search(searchString);
+                return View(customer.ToList());
+            }
+            else
+            {
+                sortOrder = String.IsNullOrEmpty(sortOrder) ? "客戶名稱" : sortOrder;
+
+                switch (sortOrder)
+                {
+                    case "客戶名稱":
+                        if (currentOrder == "客戶名稱_desc")
+                        {
+                            customer = customer.OrderByDescending(p => p.客戶名稱);
+                            ViewBag.currentOrder = "客戶名稱";
+                        }
+                        else
+                        {
+                            customer = customer.OrderBy(p => p.客戶名稱);
+                            ViewBag.currentOrder = "客戶名稱_desc";
+                        }
+                        break;
+                    case "統一編號":
+                        if (currentOrder == "統一編號_desc")
+                        {
+                            customer = customer.OrderByDescending(p => p.統一編號);
+                            ViewBag.currentOrder = "統一編號";
+                        }
+                        else
+                        {
+                            customer = customer.OrderBy(p => p.統一編號);
+                            ViewBag.currentOrder = "統一編號_desc";
+                        }
+                        break;
+                    case "電話":
+                        if (currentOrder == "電話_desc")
+                        {
+                            customer = customer.OrderByDescending(p => p.電話);
+                            ViewBag.currentOrder = "電話";
+                        }
+                        else
+                        {
+                            customer = customer.OrderBy(p => p.電話);
+                            ViewBag.currentOrder = "電話_desc";
+                        }
+                        break;
+                    case "傳真":
+                        if (currentOrder == "傳真_desc")
+                        {
+                            customer = customer.OrderByDescending(p => p.傳真);
+                            ViewBag.currentOrder = "傳真";
+                        }
+                        else
+                        {
+                            customer = customer.OrderBy(p => p.傳真);
+                            ViewBag.currentOrder = "傳真_desc";
+                        }
+                        break;
+                    case "地址":
+                        if (currentOrder == "地址_desc")
+                        {
+                            customer = customer.OrderByDescending(p => p.地址);
+                            ViewBag.currentOrder = "地址";
+                        }
+                        else
+                        {
+                            customer = customer.OrderBy(p => p.地址);
+                            ViewBag.currentOrder = "地址_desc";
+                        }
+                        break;
+                    case "Email":
+                        if (currentOrder == "Email_desc")
+                        {
+                            customer = customer.OrderByDescending(p => p.Email);
+                            ViewBag.currentOrder = "Email";
+                        }
+                        else
+                        {
+                            customer = customer.OrderBy(p => p.Email);
+                            ViewBag.currentOrder = "Email_desc";
+                        }
+                        break;
+                    default:
+                        break;
+                }
+                return View(customer.ToList());
+            }
         }
 
         // GET: 客戶資料/Details/5

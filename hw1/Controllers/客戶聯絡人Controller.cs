@@ -22,10 +22,98 @@ namespace hw1.Controllers
         }
 
         // GET: 客戶聯絡人
-        public ActionResult Index()
+        public ActionResult Index(string sortOrder, string currentOrder, string searchString)
         {
-            var 客戶聯絡人 = repo聯絡.All();
-            return View(客戶聯絡人.ToList());
+            var contact = repo聯絡.All();
+            
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                contact = repo聯絡.Search(searchString);
+                return View(contact.ToList());
+            }
+            else
+            {
+                sortOrder = String.IsNullOrEmpty(sortOrder) ? "職稱" : sortOrder;
+
+                switch (sortOrder)
+                {
+                    case "職稱":
+                        if (currentOrder == "職稱_desc")
+                        {
+                            contact = contact.OrderByDescending(p => p.職稱);
+                            ViewBag.currentOrder = "職稱";
+                        }
+                        else
+                        {
+                            contact = contact.OrderBy(p => p.職稱);
+                            ViewBag.currentOrder = "職稱_desc";
+                        }
+                        break;
+                    case "姓名":
+                        if (currentOrder == "姓名_desc")
+                        {
+                            contact = contact.OrderByDescending(p => p.姓名);
+                            ViewBag.currentOrder = "姓名";
+                        }
+                        else
+                        {
+                            contact = contact.OrderBy(p => p.姓名);
+                            ViewBag.currentOrder = "姓名_desc";
+                        }
+                        break;
+                    case "Email":
+                        if (currentOrder == "Email_desc")
+                        {
+                            contact = contact.OrderByDescending(p => p.Email);
+                            ViewBag.currentOrder = "Email";
+                        }
+                        else
+                        {
+                            contact = contact.OrderBy(p => p.Email);
+                            ViewBag.currentOrder = "Email_desc";
+                        }
+                        break;
+                    case "手機":
+                        if (currentOrder == "手機_desc")
+                        {
+                            contact = contact.OrderByDescending(p => p.手機);
+                            ViewBag.currentOrder = "手機";
+                        }
+                        else
+                        {
+                            contact = contact.OrderBy(p => p.手機);
+                            ViewBag.currentOrder = "手機_desc";
+                        }
+                        break;
+                    case "電話":
+                        if (currentOrder == "電話_desc")
+                        {
+                            contact = contact.OrderByDescending(p => p.電話);
+                            ViewBag.currentOrder = "電話";
+                        }
+                        else
+                        {
+                            contact = contact.OrderBy(p => p.電話);
+                            ViewBag.currentOrder = "電話_desc";
+                        }
+                        break;
+                    case "客戶資料.客戶名稱":
+                        if (currentOrder == "客戶資料.客戶名稱_desc")
+                        {
+                            contact = contact.OrderByDescending(p => p.客戶資料.客戶名稱);
+                            ViewBag.currentOrder = "客戶資料.客戶名稱";
+                        }
+                        else
+                        {
+                            contact = contact.OrderBy(p => p.客戶資料.客戶名稱);
+                            ViewBag.currentOrder = "客戶資料.客戶名稱_desc";
+                        }
+                        break;
+                    default:
+                        break;
+                }
+                return View(contact.ToList());
+            }
         }
 
         // GET: 客戶聯絡人/Details/5
