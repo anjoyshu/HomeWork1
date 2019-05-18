@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using ClosedXML.Excel;
 using hw1.Models;
 
 namespace hw1.Controllers
@@ -113,6 +115,33 @@ namespace hw1.Controllers
                         break;
                 }
                 return View(contact.ToList());
+            }
+        }
+
+        [HttpPost]
+        public FileResult Export()
+        {
+            var data = repo聯絡.All();
+            DataTable dt = new DataTable("客戶聯絡人");
+            dt.Columns.AddRange(new DataColumn[4] {
+                new DataColumn("客戶ID"),
+                new DataColumn("客戶姓名"),
+                new DataColumn("職稱"),
+                new DataColumn("手機") });
+
+            foreach (var contact in data)
+            {
+                dt.Rows.Add(contact.客戶Id, contact.姓名, contact.職稱, contact.手機);
+            }
+
+            using (XLWorkbook wb = new XLWorkbook())
+            {
+                wb.Worksheets.Add(dt);
+                using (MemoryStream stream = new MemoryStream())
+                {
+                    wb.SaveAs(stream);
+                    return File(stream.ToArray(), "application/vnd.ms-excel", "ContactData.xlsx");
+                }
             }
         }
 

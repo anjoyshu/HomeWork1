@@ -1,5 +1,6 @@
 namespace hw1.Models
 {
+    using hw1.DataTypeAttributes;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
@@ -25,10 +26,12 @@ namespace hw1.Models
         public string 姓名 { get; set; }
         
         [StringLength(250, ErrorMessage="欄位長度不得大於 250 個字元")]
+        [EmailAddress(ErrorMessage = "無效的 E-mail Address")]
         [Required]
         public string Email { get; set; }
         
         [StringLength(50, ErrorMessage="欄位長度不得大於 50 個字元")]
+        [驗證手機格式]
         public string 手機 { get; set; }
         
         [StringLength(50, ErrorMessage="欄位長度不得大於 50 個字元")]

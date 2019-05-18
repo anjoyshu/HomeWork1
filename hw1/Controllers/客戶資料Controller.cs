@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using ClosedXML.Excel;
 using hw1.Models;
 
 namespace hw1.Controllers
@@ -24,7 +26,7 @@ namespace hw1.Controllers
         public ViewResult Index(string sortOrder, string currentOrder, string searchString)
         {
             var customer = repo客戶.All();
-            
+
             if (!String.IsNullOrEmpty(searchString))
             {
                 customer = repo客戶.Search(searchString);
@@ -112,6 +114,33 @@ namespace hw1.Controllers
                         break;
                 }
                 return View(customer.ToList());
+            }
+        }
+
+        [HttpPost]
+        public FileResult Export()
+        {
+            var data = repo客戶.All();
+            DataTable dt = new DataTable("客戶資料");
+            dt.Columns.AddRange(new DataColumn[4] {
+                new DataColumn("客戶名稱"),
+                new DataColumn("客戶聯絡人"),
+                new DataColumn("電話"),
+                new DataColumn("地址") });
+
+            foreach (var customer in data)
+            {
+                dt.Rows.Add(customer.客戶名稱, customer.客戶聯絡人, customer.電話, customer.地址);
+            }
+
+            using (XLWorkbook wb = new XLWorkbook())
+            {
+                wb.Worksheets.Add(dt);
+                using (MemoryStream stream = new MemoryStream())
+                {
+                    wb.SaveAs(stream);
+                    return File(stream.ToArray(), "application/vnd.ms-excel", "CustomerData.xlsx");
+                }
             }
         }
 

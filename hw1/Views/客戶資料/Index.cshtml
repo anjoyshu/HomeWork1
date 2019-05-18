@@ -10,14 +10,32 @@
     @Html.ActionLink("Create New", "Create")
 </p>
 
-@using (Html.BeginForm())
-{
-    <p>
-        客戶名稱: @Html.TextBox("searchString")
-        <input type="submit" value="查詢" />
-    </p>
-}
-<br />
+<div class="well">
+    @using (Html.BeginForm())
+    {
+        <p>
+            <div class="form-row">
+                <div class="col">
+                    <div class="form-group">
+                        @Html.TextBox("searchString", null, new { @class = "form-control", placeholder = "客戶名稱" })
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <button class="btn btn-primary" type="submit">查詢</button>
+                    </div>
+                </div>
+            </div>
+        </p>
+    }
+
+    @using (Html.BeginForm("Export", "客戶資料", FormMethod.Post))
+    {
+        <div class="form-row">
+            <button class="btn btn-success" id="Export" name="Export">匯出資料</button>
+        </div>
+    }
+</div>
 
 <table class="table">
     <tr>
@@ -72,3 +90,20 @@
     }
 
 </table>
+
+@section scripts
+{
+    <script type="text/javascript">
+        $("#ButtonExport").click(function () {
+        $.ajax({
+            url: "@Url.Action("DataExport")",
+            success: function (response, textStatus, jqXHR) {
+                window.location.href = '@Url.Action("DataExport", "客戶資料")';
+            },
+            error: function (xhr, status, error) {
+                alert(error);
+            }
+        });
+    });
+    </script>
+}

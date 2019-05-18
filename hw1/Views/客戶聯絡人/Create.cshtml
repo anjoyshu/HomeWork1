@@ -50,7 +50,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.手機, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.手機, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.手機, new { htmlAttributes = new { placeholder="例如：0911-123456" , @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.手機, "", new { @class = "text-danger" })
             </div>
         </div>
