@@ -247,7 +247,8 @@ namespace hw1.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             客戶資料 客戶資料 = repo客戶.Find(id);
-            repo客戶.Delete(客戶資料);
+            //repo客戶.Delete(客戶資料);
+            客戶資料.刪除 = true;
             repo客戶.UnitOfWork.Commit();
             return RedirectToAction("Index");
         }
