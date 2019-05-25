@@ -3,14 +3,13 @@ namespace hw1.Models
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using System.Web.Mvc;
-
-    [MetadataType(typeof(客戶資料MetaData))]
-    public partial class 客戶資料
+    
+    [MetadataType(typeof(uvw_CustomerDetailMetaData))]
+    public partial class uvw_CustomerDetail
     {
     }
     
-    public partial class 客戶資料MetaData
+    public partial class uvw_CustomerDetailMetaData
     {
         [Required]
         public int Id { get; set; }
@@ -34,14 +33,11 @@ namespace hw1.Models
         public string 地址 { get; set; }
         
         [StringLength(250, ErrorMessage="欄位長度不得大於 250 個字元")]
-        [EmailAddress(ErrorMessage = "無效的 Email Address")]
-        [Remote(action: "DuplicateEmail", controller: "客戶資料", ErrorMessage = "Email 重複")]
-        [Required(ErrorMessage ="欄位不得空白")]
         public string Email { get; set; }
-
+        
+        [StringLength(50, ErrorMessage="欄位長度不得大於 50 個字元")]
         public string 客戶分類 { get; set; }
-
-        public virtual ICollection<客戶銀行資訊> 客戶銀行資訊 { get; set; }
-        public virtual ICollection<客戶聯絡人> 客戶聯絡人 { get; set; }
+        public Nullable<int> 聯絡人數量 { get; set; }
+        public Nullable<int> 銀行帳戶數量 { get; set; }
     }
 }

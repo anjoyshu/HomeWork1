@@ -14,22 +14,37 @@ namespace hw1.Controllers
 {
     public class 客戶資料Controller : Controller
     {
-        //private CustomerEntities db = new CustomerEntities();
         客戶資料Repository repo客戶;
+        uvw_CustomerDetailRepository repoCustomerDetail;
 
         public 客戶資料Controller()
         {
             repo客戶 = RepositoryHelper.Get客戶資料Repository();
+            repoCustomerDetail = RepositoryHelper.Getuvw_CustomerDetailRepository();
         }
 
         // GET: 客戶資料
-        public ViewResult Index(string sortOrder, string currentOrder, string searchString)
+        public ViewResult Index(string sortOrder, string currentOrder, string searchString, string 客戶分類)
         {
             var customer = repo客戶.All();
 
+            ViewBag.客戶分類SelectList = new SelectList(items: repo客戶.客戶分類GroupByList().ToList());
+
             if (!String.IsNullOrEmpty(searchString))
             {
-                customer = repo客戶.Search(searchString);
+                if (!String.IsNullOrEmpty(客戶分類))
+                {
+                    customer = repo客戶.CategoryQuery(客戶分類, searchString);
+                }
+                else
+                {
+                    customer = repo客戶.Search(searchString);
+                }
+                return View(customer.ToList());
+            }
+            else if(!String.IsNullOrEmpty(客戶分類))
+            {
+                customer = repo客戶.CategoryQuery(客戶分類, searchString);
                 return View(customer.ToList());
             }
             else
@@ -146,14 +161,7 @@ namespace hw1.Controllers
 
         public JsonResult DuplicateEmail(string Email)
         {
-            bool isValidate = false;
-
-            客戶資料 客戶資料 = repo客戶.IsExist(Email);
-            if (客戶資料 == null) { isValidate = true; }
-            else { isValidate = false; }
-
-            return Json(isValidate, JsonRequestBehavior.AllowGet);
-
+            return Json(repo客戶.IsExist(Email), JsonRequestBehavior.AllowGet);
         }
 
         // GET: 客戶資料/Details/5
@@ -251,6 +259,11 @@ namespace hw1.Controllers
             客戶資料.刪除 = true;
             repo客戶.UnitOfWork.Commit();
             return RedirectToAction("Index");
+        }
+
+        public ActionResult 客戶關聯資料表()
+        {
+            return View(repoCustomerDetail.All().ToList());
         }
 
         protected override void Dispose(bool disposing)

@@ -20,6 +20,19 @@ namespace hw1.Models
         {
             return this.All().Where(p => p.Email == Email).SingleOrDefault();
         }
+
+        public IQueryable<客戶聯絡人> CategoryQuery(string 職稱, string searchString)
+        {
+            if (string.IsNullOrEmpty(searchString))
+                return All().Where(p => p.職稱.Equals(職稱));
+            else
+                return All().Where(p => p.職稱.Equals(職稱) && p.姓名.Contains(searchString));
+        }
+
+        public IQueryable<string> 職稱GroupByList()
+        {
+            return this.All().GroupBy(p => p.職稱).Select(p => p.Key);
+        }
         /// <summary>
         /// 覆寫 All() 只取出 [刪除] 欄位為 0 的紀錄
         /// </summary>

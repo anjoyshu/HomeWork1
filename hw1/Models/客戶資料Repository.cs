@@ -16,9 +16,21 @@ namespace hw1.Models
             return this.All().Where(p => p.客戶名稱.Contains(searchString));
         }
 
-        public 客戶資料 IsExist(string Email)
+        public bool IsExist(string Email)
         {
-            return this.All().Where(p => p.Email == Email).SingleOrDefault();
+            return this.All().Any(p => p.Email == Email);
+        }
+        public IQueryable<客戶資料> CategoryQuery(string 客戶分類, string searchString)
+        {
+            if (string.IsNullOrEmpty(searchString))
+                return All().Where(p => p.客戶分類.Equals(客戶分類));
+            else
+                return All().Where(p => p.客戶分類.Equals(客戶分類) && p.客戶名稱.Contains(searchString));
+        }
+
+        public IQueryable<string> 客戶分類GroupByList()
+        {
+            return this.All().GroupBy(p => p.客戶分類).Select(p => p.Key);
         }
         /// <summary>
         /// 覆寫 All() 只取出 [刪除] 欄位為 0 的紀錄

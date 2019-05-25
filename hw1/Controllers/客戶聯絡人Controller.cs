@@ -24,13 +24,27 @@ namespace hw1.Controllers
         }
 
         // GET: 客戶聯絡人
-        public ActionResult Index(string sortOrder, string currentOrder, string searchString)
+        public ActionResult Index(string sortOrder, string currentOrder, string searchString, string 職稱)
         {
             var contact = repo聯絡.All();
-            
+
+            ViewBag.職稱SelectList = new SelectList(items: repo聯絡.職稱GroupByList().ToList());
+
             if (!String.IsNullOrEmpty(searchString))
             {
-                contact = repo聯絡.Search(searchString);
+                if (!String.IsNullOrEmpty(職稱))
+                {
+                    contact = repo聯絡.CategoryQuery(職稱, searchString);
+                }
+                else
+                {
+                    contact = repo聯絡.Search(searchString);
+                }
+                return View(contact.ToList());
+            }
+            else if (!String.IsNullOrEmpty(職稱))
+            {
+                contact = repo聯絡.CategoryQuery(職稱, searchString);
                 return View(contact.ToList());
             }
             else
