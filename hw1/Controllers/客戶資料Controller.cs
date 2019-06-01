@@ -12,6 +12,9 @@ using hw1.Models;
 
 namespace hw1.Controllers
 {
+
+    [HandleError(View = "Error.ArgumentException",
+        ExceptionType = typeof(ArgumentException))]
     public class 客戶資料Controller : Controller
     {
         客戶資料Repository repo客戶;
@@ -264,6 +267,12 @@ namespace hw1.Controllers
         public ActionResult 客戶關聯資料表()
         {
             return View(repoCustomerDetail.All().ToList());
+        }
+
+        public ActionResult Error()
+        {
+            throw new ArgumentException("驗證失敗");
+            return View();
         }
 
         protected override void Dispose(bool disposing)

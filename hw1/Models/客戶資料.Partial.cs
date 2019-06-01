@@ -21,6 +21,7 @@ namespace hw1.Models
         
         [StringLength(8, ErrorMessage="欄位長度不得大於 8 個字元")]
         [Required]
+        [UIHint("PhoneFormat")]
         public string 統一編號 { get; set; }
         
         [StringLength(50, ErrorMessage="欄位長度不得大於 50 個字元")]
@@ -37,6 +38,7 @@ namespace hw1.Models
         [EmailAddress(ErrorMessage = "無效的 Email Address")]
         [Remote(action: "DuplicateEmail", controller: "客戶資料", ErrorMessage = "Email 重複")]
         [Required(ErrorMessage ="欄位不得空白")]
+        [UIHint("Email")]
         public string Email { get; set; }
 
         public string 客戶分類 { get; set; }

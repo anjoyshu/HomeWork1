@@ -1,0 +1,9 @@
+﻿@model String
+    @if (Model ==null)
+    {
+        <span class="text-danger">No Data!</span>
+    }
+    else
+    {
+        <span>@Model.ToLower().ToString()</span>
+    }

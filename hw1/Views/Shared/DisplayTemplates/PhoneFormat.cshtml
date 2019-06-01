@@ -1,0 +1,21 @@
+﻿@model String
+@if (Model == null)
+{
+    <span class="text-danger">No Data!</span>
+}
+else
+{
+    <span>
+        @{
+            if (Model.Length <= 5)
+            {
+                @Model
+            }
+            else
+            {
+                @Model.Substring(0, 5) @:...
+            }
+        }
+    </span>
+}
+

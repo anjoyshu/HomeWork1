@@ -1,0 +1,16 @@
+﻿@model HandleErrorInfo
+
+@{
+    var ex = Model.Exception as ArgumentException;
+
+}
+<hgroup>
+    <h1>ArgumentException 錯誤。</h1>
+    <h2>處理您的要求時發生錯誤。</h2>
+    <hr />
+    @Model.ControllerName
+    <hr />
+    @Model.ActionName
+    <hr />
+    <pre>@ex.Message</pre>
+</hgroup>

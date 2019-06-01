@@ -33,6 +33,16 @@
         </div>
     </div>
     <div class="container body-content">
+
+        <ul class="breadcrumb">
+            <li>
+                <i class="icon-home"></i>
+                <a href="@Url.Action("Index", "客戶資料")">Home</a>
+                <i class="icon-angle-right"></i>
+            </li>
+            @RenderSection("breadcrumb", required: false)
+        </ul>
+
         @RenderBody()
         <hr />
         <footer>
